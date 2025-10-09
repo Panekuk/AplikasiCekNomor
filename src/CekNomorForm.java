@@ -9,43 +9,62 @@ public class CekNomorForm extends javax.swing.JFrame implements ActionListener {
         setResizable(false);
         btnCek.addActionListener(this);
     }
-    
+    @Override
     public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == btnCek) {
-        try {
-            if (txtAngka.getText().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Silakan masukkan angka terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
+        if (e.getSource() == btnCek) {
+            try {
+                // Validasi input kosong
+                if (txtAngka.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, 
+                        "Silakan masukkan angka terlebih dahulu!", 
+                        "Peringatan", 
+                        JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
 
-            int angka = Integer.parseInt(txtAngka.getText().trim());
-            String hasil;
+                int angka = Integer.parseInt(txtAngka.getText().trim());
+                String hasil;
 
-            if (angka % 2 == 0) {
-                hasil = angka + " adalah bilangan GENAP.";
-            } else {
-                hasil = angka + " adalah bilangan GANJIL.";
-            }
+                // Cek ganjil atau genap
+                if (angka % 2 == 0) {
+                    hasil = angka + " adalah bilangan GENAP.";
+                } else {
+                    hasil = angka + " adalah bilangan GANJIL.";
+                }
 
-            boolean prima = true;
-            if (angka <= 1) prima = false;
-            else {
-                for (int i = 2; i <= Math.sqrt(angka); i++) {
-                    if (angka % i == 0) {
-                        prima = false;
-                        break;
+                // Cek bilangan prima
+                boolean prima = true;
+                if (angka <= 1) prima = false;
+                else {
+                    for (int i = 2; i <= Math.sqrt(angka); i++) {
+                        if (angka % i == 0) {
+                            prima = false;
+                            break;
+                        }
                     }
                 }
+
+                hasil += prima ? 
+                        "\nAngka ini juga merupakan bilangan PRIMA." : 
+                        "\nAngka ini BUKAN bilangan prima.";
+
+                // Tampilkan di text area
+                txtHasil.setText("Hasil:\n" + hasil);
+
+                // Tampilkan juga di popup
+                JOptionPane.showMessageDialog(this, 
+                        hasil, 
+                        "Hasil Cek Nomor", 
+                        JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, 
+                        "Input harus berupa angka!", 
+                        "Error", 
+                        JOptionPane.ERROR_MESSAGE);
             }
-
-            hasil += prima ? "\nAngka ini juga merupakan bilangan PRIMA." : "\nAngka ini BUKAN bilangan prima.";
-            txtHasil.setText("Hasil:\n" + hasil);
-
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Input harus berupa angka!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-}
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
